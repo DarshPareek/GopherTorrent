@@ -7,7 +7,7 @@ import (
 )
 
 func Test() {
-	content, err := os.ReadFile("file.txt")
+	content, err := os.ReadFile("~/devel/GopherTorrent/bencodeparser/file.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

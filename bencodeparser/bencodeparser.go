@@ -1,15 +1,17 @@
 package bencodeparser
 
 import (
-	"fmt"
 	"log"
 	"os"
 )
 
-func Test() {
-	content, err := os.ReadFile("file.txt")
+func Test() string {
+	content, err := os.ReadFile("bencodeparser/file.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(content))
+	return parse(content)
+}
+func parse(data []byte) string {
+	return "Hello"
 }

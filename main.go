@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/DarshPareek/GopherTorrent/bencodeparser"
 )
 
 func main() {
-	bencodeparser.Test()
+	fmt.Println(bencodeparser.Test())
 }

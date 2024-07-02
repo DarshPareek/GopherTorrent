@@ -13,5 +13,5 @@ func Test() string {
 	return parse(content)
 }
 func parse(data []byte) string {
-	return "Hello"
+	return string(data)
 }

@@ -1,6 +1,7 @@
 package bencodeparser
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -13,21 +14,22 @@ func TestOpen(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	assert.Equal(t, string(torrent), "i5454e")
+	assert.Equal(t, string(torrent), "li1e3:twoi525e5:helloe")
 }
 
-//	func TestString(t *testing.T) {
-//		torrent, err := os.ReadFile("file.txt")
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//		fmt.Print(string(torrent))
-//		assert.Equal(t, stringParse([]byte("45:Arch Linux 2024.05.01 <https://archlinux.org>")), "Arch Linux 2024.05.01 <https://archlinux.org>")
-//	}
+func TestString(t *testing.T) {
+	ans, i := stringParse([]byte("45:Arch Linux 2024.05.01 <https://archlinux.org>"))
+	log.Print(i)
+	assert.Equal(t, ans, "Arch Linux 2024.05.01 <https://archlinux.org>")
+}
 func TestInt(t *testing.T) {
-	torrent, err := os.ReadFile("file.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	assert.Equal(t, stringParse(torrent), "5454")
+	ans, i := intParse([]byte("i5454e"))
+	log.Print(i)
+	assert.Equal(t, ans, "5454")
+}
+func TestList(t *testing.T) {
+	s := listParse([]byte("li1e3:twoi525e5:helloe"))
+	q := []string{"1", "two", "525", "hello"}
+	fmt.Println(q)
+	assert.Equal(t, s, q)
 }

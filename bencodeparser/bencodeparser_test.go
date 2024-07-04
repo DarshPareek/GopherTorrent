@@ -28,8 +28,15 @@ func TestInt(t *testing.T) {
 	assert.Equal(t, ans, "5454")
 }
 func TestList(t *testing.T) {
-	s := listParse([]byte("li1e3:twoi525e5:helloe"))
+	s, _ := listParse([]byte("li1e3:twoi525e5:helloe"))
 	q := []string{"1", "two", "525", "hello"}
+	fmt.Println(q)
+	assert.Equal(t, s, q)
+}
+func TestDict(t *testing.T) {
+	s, _ := dictParse([]byte("d4:spaml1:a1:bee"))
+	q := make(map[any]any)
+	q["spam"] = []string{"a", "b"}
 	fmt.Println(q)
 	assert.Equal(t, s, q)
 }

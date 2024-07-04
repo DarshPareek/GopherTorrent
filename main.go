@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/DarshPareek/GopherTorrent/bencodeparser"
+	"github.com/DarshPareek/GopherTorrent/torrentfile"
 )
 
 func main() {
@@ -14,5 +14,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(bencodeparser.Parse(torrent))
+	data := bencodeparser.Parse(torrent)
+	// fmt.Println(data)
+	clean := torrentfile.OrganizeData(data)
+	clean.ShowData()
 }

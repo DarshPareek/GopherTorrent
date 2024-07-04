@@ -1,10 +1,12 @@
 package torrentfile
 
+import "fmt"
+
 type torrentInfo struct {
-	length      int
-	name        string
-	pieceLength int
-	pieces      []byte
+	length      any
+	name        any
+	pieceLength any
+	pieces      any
 }
 
 type TorrentFile struct {
@@ -15,7 +17,7 @@ type TorrentFile struct {
 	Info         torrentInfo
 }
 
-func organizeData(data interface{}) TorrentFile {
+func OrganizeData(data map[any]any) TorrentFile {
 	var t TorrentFile
 	var d torrentInfo
 	for key, value := range data {
@@ -29,20 +31,34 @@ func organizeData(data interface{}) TorrentFile {
 		case "creation date":
 			t.creationDate = value
 		case "info":
-			for k, v := range value {
-				switch k {
-				case "length":
-					d.length = v
-				case "name":
-					d.name = v
-				case "piece lenght":
-					d.pieceLength = v
-				case "pieces":
-					d.pieces = v
+			switch v := value.(type) {
+			case map[any]any:
+				for k, va := range v {
+					switch k {
+					case "length":
+						d.length = va
+					case "name":
+						d.name = va
+					case "piece length":
+						d.pieceLength = va
+					case "pieces":
+						d.pieces = va
+					}
 				}
 			}
 			t.Info = d
 		}
 	}
 	return t
+}
+
+func (t TorrentFile) ShowData() {
+	fmt.Println(t.announce)
+	fmt.Println(t.comment)
+	fmt.Println(t.createdBy)
+	fmt.Println(t.creationDate)
+	fmt.Println(t.Info.length)
+	fmt.Println(t.Info.name)
+	fmt.Println(t.Info.pieceLength)
+	fmt.Println(t.Info.pieces)
 }

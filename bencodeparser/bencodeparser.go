@@ -21,7 +21,7 @@ func stringParse(data []byte) (string, int) {
 	}
 	return string(data[colonIndex+1 : colonIndex+1+number]), (colonIndex + 1 + number)
 }
-func Parse(data []byte) interface{} {
+func Parse(data []byte) map[any]any {
 	res, _ := dictParse(data)
 	return res
 }

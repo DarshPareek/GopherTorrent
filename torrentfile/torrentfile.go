@@ -2,6 +2,7 @@ package torrentfile
 
 import (
 	"bufio"
+	"bytes"
 	"crypto/sha1"
 	"os"
 
@@ -15,8 +16,9 @@ type MetainfoFile struct {
 }
 
 type TorrentInfo struct {
-	pieceLength int
-	pieces      [][20]byte
+	pieceLength int64
+	Pieces      [][20]byte
+	length      int64
 }
 
 func (m *MetainfoFile) SetData(fname string) {
@@ -44,6 +46,34 @@ func (m *MetainfoFile) SetData(fname string) {
 				}
 				infohash := sha1.Sum(bencodedInfo)
 				m.InfoHash = infohash
+				switch v := value.(type) {
+				case map[string]interface{}:
+					for key, value := range v {
+						if key == "length" {
+							switch v := value.(type) {
+							case int64:
+								m.Info.length = v
+							}
+						} else if key == "pieces" {
+							// fmt.Println(reflect.TypeOf(value))
+							switch v := value.(type) {
+							case string:
+								temp := bytes.NewBufferString(v)
+								for i := 0; i < len(v)/20; i += 1 {
+									var val [20]byte
+									temp.Read(val[:])
+									m.Info.Pieces = append(m.Info.Pieces, val)
+								}
+							}
+						} else if key == "piece length" {
+							// fmt.Println(reflect.TypeOf(value))
+							switch v := value.(type) {
+							case int64:
+								m.Info.pieceLength = v
+							}
+						}
+					}
+				}
 			}
 		}
 	}

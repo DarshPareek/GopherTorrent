@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
+	"fmt"
 	"io"
 	"strconv"
 )
@@ -11,6 +12,7 @@ import (
 func Decode(r *bufio.Reader) (interface{}, error) {
 	ch, err := r.ReadByte()
 	if err != nil {
+		fmt.Println("HERE")
 		return nil, err
 	}
 	switch ch {
@@ -44,6 +46,7 @@ func Decode(r *bufio.Reader) (interface{}, error) {
 
 		}
 	case 'd':
+		fmt.Println("HERE")
 		dict := map[string]interface{}{}
 		for {
 			c, err2 := r.ReadByte()

@@ -2,7 +2,7 @@ package torrentfile
 
 import (
 	"bufio"
-	"fmt"
+	"crypto/sha1"
 	"os"
 
 	"github.com/DarshPareek/GopherTorrent/bencodeparser"
@@ -19,7 +19,7 @@ type TorrentInfo struct {
 	pieces      [][20]byte
 }
 
-func (m MetainfoFile) SetData(fname string) {
+func (m *MetainfoFile) SetData(fname string) {
 	buf, err := os.Open(fname)
 	if err != nil {
 		panic(err)
@@ -29,5 +29,22 @@ func (m MetainfoFile) SetData(fname string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(data)
+	switch v := data.(type) {
+	case map[string]interface{}:
+		for key, value := range v {
+			if key == "announce" {
+				switch v2 := value.(type) {
+				case string:
+					m.Announce = v2
+				}
+			} else if key == "info" {
+				bencodedInfo, err := bencodeparser.GetEncodedInfo(value)
+				if err != nil {
+					panic(err)
+				}
+				infohash := sha1.Sum(bencodedInfo)
+				m.InfoHash = infohash
+			}
+		}
+	}
 }

@@ -117,3 +117,33 @@ func read(r *bufio.Reader, buf []byte, l int) (int, error) {
 	}
 	return n, err
 }
+
+func GetEncodedInfo(data interface{}) ([]byte, error) {
+	var encoded []byte
+	encoded = append(encoded, 'd')
+	switch v := data.(type) {
+	case map[string]interface{}:
+		for key, value := range v {
+			// encoded = encoded + strconv.Itoa(len(key)) + ":" + key
+			// fmt.Println(key, value, reflect.TypeOf(key), reflect.TypeOf(value))
+			encoded = append(encoded, []byte(strconv.Itoa(len(key)))...)
+			encoded = append(encoded, ':')
+			encoded = append(encoded, []byte(key)...)
+			switch v := value.(type) {
+			case int64:
+				// encoded = encoded + "i" + strconv.Itoa(v) + "e"
+				encoded = append(encoded, 'i')
+				encoded = append(encoded, []byte(strconv.FormatInt(v, 10))...)
+				encoded = append(encoded, 'e')
+			case string:
+				// encoded = encoded + strconv.Itoa(len(v)) + ":" + v
+				encoded = append(encoded, []byte(strconv.Itoa(len(v)))...)
+				encoded = append(encoded, ':')
+				encoded = append(encoded, []byte(v)...)
+			}
+			// fmt.Println(key, value)
+		}
+	}
+	encoded = append(encoded, 'e')
+	return encoded, nil
+}

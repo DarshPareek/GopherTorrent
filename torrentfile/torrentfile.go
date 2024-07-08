@@ -16,9 +16,9 @@ type MetainfoFile struct {
 }
 
 type TorrentInfo struct {
-	pieceLength int64
+	PieceLength int64
 	Pieces      [][20]byte
-	length      int64
+	Length      int64
 }
 
 func (m *MetainfoFile) SetData(fname string) {
@@ -52,7 +52,7 @@ func (m *MetainfoFile) SetData(fname string) {
 						if key == "length" {
 							switch v := value.(type) {
 							case int64:
-								m.Info.length = v
+								m.Info.Length = v
 							}
 						} else if key == "pieces" {
 							// fmt.Println(reflect.TypeOf(value))
@@ -69,7 +69,7 @@ func (m *MetainfoFile) SetData(fname string) {
 							// fmt.Println(reflect.TypeOf(value))
 							switch v := value.(type) {
 							case int64:
-								m.Info.pieceLength = v
+								m.Info.PieceLength = v
 							}
 						}
 					}

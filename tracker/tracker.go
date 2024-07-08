@@ -2,7 +2,6 @@ package tracker
 
 import (
 	"bufio"
-	"crypto/rand"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -25,9 +24,7 @@ type Peer struct {
 	Port uint16
 }
 
-func MakeRequest(file torrentfile.MetainfoFile) (string, error) {
-	peerId := make([]byte, 20)
-	rand.Read(peerId)
+func MakeRequest(file torrentfile.MetainfoFile, peerId [20]byte) (string, error) {
 	port := 6881
 	base, err := url.Parse(file.Announce)
 	if err != nil {
@@ -95,4 +92,8 @@ func SavePeers(peers string) ([]Peer, error) {
 		peer[i].Port = binary.BigEndian.Uint16(peersBin[offset+4 : offset+6])
 	}
 	return peer, nil
+}
+
+func (p Peer) String() string {
+	return net.JoinHostPort(p.IP.String(), strconv.Itoa(int(p.Port)))
 }

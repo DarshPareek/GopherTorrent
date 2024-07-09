@@ -49,6 +49,7 @@ func MakeRequest(file torrentfile.MetainfoFile, peerId [20]byte) (string, error)
 	if err != nil {
 		return "", err
 	}
+	fmt.Println(string(bodyBytes))
 	return string(bodyBytes), nil
 }
 func ParseResponse(resp string) Trackerresponse {

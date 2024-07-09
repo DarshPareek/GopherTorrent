@@ -178,6 +178,7 @@ func (t *Torrent) Download() ([]byte, error) {
 	log.Println("Starting download")
 	// Init queues for workers to retrieve work and send results
 	workQueue := make(chan *pieceWork, len(t.PieceHashes))
+	log.Println(len(t.PieceHashes))
 	results := make(chan *pieceResult)
 	for index, hash := range t.PieceHashes {
 		length := t.calculatePieceSize(index)
@@ -186,7 +187,7 @@ func (t *Torrent) Download() ([]byte, error) {
 
 	// Start workers
 	for _, peer := range t.Peers {
-		fmt.Println(peer, workQueue, results)
+		log.Println(peer, workQueue, results)
 		go t.startDownloadWorker(peer, workQueue, results)
 	}
 

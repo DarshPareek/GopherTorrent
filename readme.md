@@ -4,7 +4,7 @@
 <h1>
 USAGE
 <h4><pre><code>$ chmod +x GopherTorrent <br> 
-  $ ./GopherTorrent /path/to/torrent/file &lt;name of the downloaded file&gt;.&lt;extension&gt;</code></pre></h4>
+$ ./GopherTorrent /path/to/torrent/file &lt;name of the downloaded file&gt;.&lt;extension&gt;</code></pre></h4>
 </h1>
 <h3>
 It has a bencode parser written from scratch!<br>
